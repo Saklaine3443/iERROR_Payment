@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>iERROR Coin | Block Explorer</title>
+    <style>
+        body { font-family: 'Courier New', monospace; background: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .header { border-bottom: 1px solid #30363d; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .badge { background: #238636; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        .card { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 20px; margin-bottom: 20px; }
+        .label { color: #8b949e; font-size: 14px; margin-bottom: 5px; }
+        .value { font-size: 18px; word-break: break-all; color: #58a6ff; }
+        .status { color: #238636; font-weight: bold; font-size: 20px; }
+        .loader { height: 4px; background: #30363d; margin-top: 10px; border-radius: 2px; overflow: hidden; }
+        .progress { height: 100%; background: #58a6ff; width: 0%; transition: width 0.5s; }
+        #confirmations { font-size: 14px; color: #f0883e; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>iERROR Chain Explorer</h2>
+            <span class="badge">LIVE • MAINNET</span>
+        </div>
+
+        <div class="card">
+            <div class="label">Transaction Hash</div>
+            <div class="value" id="txHash">Loading...</div>
+        </div>
+
+        <div class="card">
+            <div class="label">Status</div>
+            <div class="status" id="status">CONFIRMED</div>
+            <div class="loader"><div class="progress" id="progBar"></div></div>
+            <div id="confirmations">Confirmations: 6/6 (Finalized)</div>
+        </div>
+
+        <div class="card">
+            <div class="label">Amount Transferred</div>
+            <div class="value" style="color: #238636;">$<span id="amount">0.00</span> USDT</div>
+        </div>
+
+        <div class="card">
+            <div class="label">Recipient Address</div>
+            <div class="value" id="recipient">T9y...Placeholder</div>
+        </div>
+        
+        <div class="card">
+            <div class="label">Block Height</div>
+            <div class="value" id="blockHeight">19,283,441</div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
