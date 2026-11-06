@@ -2,54 +2,155 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>iERROR Coin | Block Explorer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NodeMaven | Fraud Automation</title>
     <style>
-        body { font-family: 'Courier New', monospace; background: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .header { border-bottom: 1px solid #30363d; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .badge { background: #238636; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        .card { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 20px; margin-bottom: 20px; }
-        .label { color: #8b949e; font-size: 14px; margin-bottom: 5px; }
-        .value { font-size: 18px; word-break: break-all; color: #58a6ff; }
-        .status { color: #238636; font-weight: bold; font-size: 20px; }
-        .loader { height: 4px; background: #30363d; margin-top: 10px; border-radius: 2px; overflow: hidden; }
-        .progress { height: 100%; background: #58a6ff; width: 0%; transition: width 0.5s; }
-        #confirmations { font-size: 14px; color: #f0883e; margin-top: 5px; }
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --border: #334155;
+            --input-bg: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-main);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.875rem;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--accent-hover);
+        }
+
+        button:disabled {
+            background-color: var(--border);
+            cursor: not-allowed;
+        }
+
+        #status {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+            min-height: 1.5rem;
+        }
+
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="header">
-            <h2>iERROR Chain Explorer</h2>
-            <span class="badge">LIVE • MAINNET</span>
-        </div>
+        <h1>NodeMaven</h1>
+        <p class="subtitle">Transaction Proof Generator</p>
 
-        <div class="card">
-            <div class="label">Transaction Hash</div>
-            <div class="value" id="txHash">Loading...</div>
-        </div>
+        <form id="proofForm">
+            <div class="form-group">
+                <label for="tokenType">Token Type</label>
+                <select id="tokenType" required>
+                    <option value="ETH">Ethereum (ETH)</option>
+                    <option value="BTC">Bitcoin (BTC)</option>
+                    <option value="USDT">Tether (USDT)</option>
+                    <option value="SOL">Solana (SOL)</option>
+                </select>
+            </div>
 
-        <div class="card">
-            <div class="label">Status</div>
-            <div class="status" id="status">CONFIRMED</div>
-            <div class="loader"><div class="progress" id="progBar"></div></div>
-            <div id="confirmations">Confirmations: 6/6 (Finalized)</div>
-        </div>
+            <div class="form-group">
+                <label for="recipientAddress">Recipient Address</label>
+                <input type="text" id="recipientAddress" placeholder="0x..." required>
+            </div>
 
-        <div class="card">
-            <div class="label">Amount Transferred</div>
-            <div class="value" style="color: #238636;">$<span id="amount">0.00</span> USDT</div>
-        </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" step="0.000000000000000001" placeholder="0.00" required>
+            </div>
 
-        <div class="card">
-            <div class="label">Recipient Address</div>
-            <div class="value" id="recipient">T9y...Placeholder</div>
-        </div>
-        
-        <div class="card">
-            <div class="label">Block Height</div>
-            <div class="value" id="blockHeight">19,283,441</div>
-        </div>
+            <button type="submit" id="generateBtn">Generate Proof</button>
+        </form>
+
+        <div id="status"></div>
     </div>
 
     <script src="app.js"></script>
